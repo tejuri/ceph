@@ -1,0 +1,50 @@
+wget -q -O- 'https://download.ceph.com/keys/release.asc' | sudo apt-key add -
+
+echo deb https://download.ceph.com/debian-jewel/ $(lsb_release -sc) main | sudo tee /etc/apt/sources.list.d/ceph.list1
+
+sudo apt-get update && sudo apt-get install ceph-deploy
+
+sudo apt-get install ntp
+
+sudo apt-get install openssh-server
+
+sudo visudo
+
+ssh-keygen -t rsa
+
+cd .ssh/
+
+cat id_rsa.pub >> authorized_keys
+
+chmod 600 authorized_keys
+
+ssh localhost
+
+sudo nano /etc/hosts
+  #write this open open file
+  172.30.100.64	admin-node
+172.30.101.107	node1
+172.30.101.108	node2
+172.30.101.109	node3
+172.30.101.116	ceph-client
+
+sudo nano ~/.ssh/config
+  #write this open open file
+  Host node1
+     Hostname node1
+     User node1
+  Host node2
+     Hostname node2
+     User node2
+  Host node3
+     Hostname node3
+     User node3
+  Host ceph-client
+     Hostname ceph-client
+     User ceph-client
+
+ssh-copy-id node1@node1
+
+ssh-copy-id node2@node2
+
+ssh-copy-id node3@node3
